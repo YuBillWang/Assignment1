@@ -6,12 +6,11 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
-import kotlin.random.Random
+import android.media.MediaPlayer
 
 class MainActivity : AppCompatActivity() {
-    private var a = 0
     private var sum = 0
-    private val random = Random(1)
+    private lateinit var mediaPlayer: MediaPlayer
 
 
     override fun onStart(){
@@ -33,60 +32,49 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy(){
         super.onDestroy()
         Log.i("LIFECYCLE","onDestroy")
+        mediaPlayer.release()
     }
     override fun onRestart(){
         super.onRestart()
         Log.i("LIFECYCLE","onRestart")
     }
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         Log.i("LIFECYCLE","onCreate")
+        mediaPlayer = MediaPlayer.create(this, R.raw.bugle_tune)
 
-        val roll = findViewById<Button>(R.id.roll)
-        val add = findViewById<Button>(R.id.add)
-        val sub = findViewById<Button>(R.id.sub)
+
+        val add = findViewById<Button>(R.id.score)
+        val sub = findViewById<Button>(R.id.steal)
         val reset = findViewById<Button>(R.id.reset)
-        val txt1 = findViewById<TextView>(R.id.txt1)
         val txt2 = findViewById<TextView>(R.id.txt2)
-        var isRolled = false
 
-        roll.setOnClickListener {
-            if(!isRolled) {
-                a = roll()
-                txt1.text = a.toString()
-                isRolled = true
-                Log.i("LIFECYCLE","Dice rolled once")
-            }
-
-        }
 
         add.setOnClickListener {
-            if(isRolled) {
-                sum += a
-                txt2.text = sum.toString()
-                changecolor(txt2)
-                a = 0
-                isRolled = false
-                Log.i("LIFECYCLE","number added")
+            sum += 1
+            txt2.text = sum.toString()
+            changecolor(txt2)
+            Log.i("LIFECYCLE","number added")
+            if (sum == 15) {
+                playSound()
             }
+            if (sum > 15) {
+                sum = 15;
+                txt2.text = sum.toString()
+            }
+
         }
 
         sub.setOnClickListener {
-            if(isRolled) {
-                sum -= a
-                if (sum < 0) {
-                    sum = 0
-                }
-                txt2.text = sum.toString()
-                changecolor(txt2)
-                a = 0
-                isRolled = false
-                Log.i("LIFECYCLE","number subtracted")
+            sum -= 1
+            if (sum < 0) {
+                sum = 0
             }
+            txt2.text = sum.toString()
+            changecolor(txt2)
+            Log.i("LIFECYCLE","number subtracted")
         }
 
         reset.setOnClickListener {
@@ -108,28 +96,26 @@ class MainActivity : AppCompatActivity() {
         sum = savedInstanceState.getInt("txt2")
         val txt2 = findViewById<TextView>(R.id.txt2)
         txt2.text = sum.toString()
+        changecolor(txt2)
         Log.i("LIFECYCLE", "saveInstanceState $sum")
     }
 
-   /* fun roll():Int{
-        return  (1..6).random()
-    }*/
-    fun roll():Int{
-        return random.nextInt(6)+1
-    }
-
     fun changecolor(txt2:TextView) {
-        if (sum<20) {
+        if (sum<5) {
             txt2.setTextColor(Color.BLACK)
             Log.i("LIFECYCLE","color changed")
         }
-        else if (sum==20) {
+        else if (sum in 5..9) {
+            txt2.setTextColor(Color.BLUE)
+            Log.i("LIFECYCLE","color changed")
+        }
+        else{
             txt2.setTextColor(Color.GREEN)
             Log.i("LIFECYCLE","color changed")
         }
-        else if (sum>20) {
-            txt2.setTextColor(Color.RED)
-            Log.i("LIFECYCLE","color changed")
-        }
     }
+    private fun playSound() {
+            mediaPlayer.start()
+            Log.i("LIFECYCLE", "Sound played")
+        }
 }

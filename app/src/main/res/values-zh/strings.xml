@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Core1</string>
-    <string name="roll">YaoShaiZi</string>
-    <string name="add">Jia</string>
-    <string name="sub">Jian</string>
+    <string name="score">Jia</string>
+    <string name="steal">Jian</string>
     <string name="reset">ChongZhi</string>
-    <string name="txt1">0</string>
     <string name="txt2">0</string>
 </resources>

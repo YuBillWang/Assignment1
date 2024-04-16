@@ -1,9 +1,7 @@
 <resources>
     <string name="app_name">Core1</string>
-    <string name="roll">Roll!</string>
-    <string name="add">Add</string>
-    <string name="sub">Subtract</string>
-    <string name="reset">Reset</string>
-    <string name="txt1">0</string>
+    <string name="score">SCORE</string>
+    <string name="steal">STEAL</string>
+    <string name="reset">RESET</string>
     <string name="txt2">0</string>
 </resources>

@@ -7,67 +7,48 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/txt1"
-        android:layout_width="82dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="40dp"
-        android:text="@string/txt1"
+        android:id="@+id/txt2"
+        android:layout_width="92dp"
+        android:layout_height="49dp"
+        android:text="@string/txt2"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/roll" />
-
-    <Button
-        android:id="@+id/roll"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:text="@string/roll"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/txt2"
-        android:layout_width="59dp"
-        android:layout_height="31dp"
-        android:layout_marginTop="40dp"
-        android:text="@string/txt2"
-        app:layout_constraintEnd_toEndOf="parent"
+    <Button
+        android:id="@+id/score"
+        android:layout_width="130dp"
+        android:layout_height="50dp"
+        android:text="@string/score"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/steal"
+        app:layout_constraintHorizontal_bias="0.055"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sub" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.881" />
 
     <Button
-        android:id="@+id/add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:text="@string/add"
+        android:id="@+id/steal"
+        android:layout_width="130dp"
+        android:layout_height="50dp"
+        android:text="@string/steal"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt1" />
-
-    <Button
-        android:id="@+id/sub"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:text="@string/sub"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.881" />
 
     <Button
         android:id="@+id/reset"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_width="130dp"
+        android:layout_height="50dp"
         android:text="@string/reset"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt2" />
+        app:layout_constraintStart_toEndOf="@+id/steal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.88" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

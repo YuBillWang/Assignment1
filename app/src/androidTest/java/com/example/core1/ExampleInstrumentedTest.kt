@@ -1,8 +1,5 @@
+package com.example.core1
 import android.content.pm.ActivityInfo
-import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.*
@@ -10,109 +7,114 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import com.example.core1.MainActivity
-import com.example.core1.R
-import org.hamcrest.Description
-import org.hamcrest.Matcher
-import org.hamcrest.TypeSafeMatcher
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-
 @LargeTest
 @RunWith(AndroidJUnit4::class)
-class MainActivity2Test {
+class MainActivityTest {
 
-    private var myAddButton = 0
-    private var mySubtractButton = 0
-    private var myRollButton = 0
+    private var myScoreButton = 0
+    private var myStealButton = 0
     private var myResetButton = 0
     private var myScoreTextField = 0
+
+    @get:Rule
+    var activityRule: ActivityScenarioRule<MainActivity>
+            = ActivityScenarioRule(MainActivity::class.java)
 
     @Before
     fun initValidString() {
         // Please set your id names here.
-        myAddButton = R.id.add
-        mySubtractButton = R.id.sub
-        myRollButton = R.id.roll
+        myScoreButton = R.id.score
+        myStealButton = R.id.steal
         myResetButton = R.id.reset
         myScoreTextField = R.id.txt2
     }
 
-    @Rule
-    @JvmField
-    var mActivityScenarioRule = ActivityScenarioRule(MainActivity::class.java)
-
     @Test
-    fun clickRollAddButton3Times() {
+    fun clickScoreButton3Times() {
         // given: open app
-        // when: roll and add three times
-        // then: score is 10
-        val addButton = onView(withId(myAddButton))
-        val rollButton = onView(withId(myRollButton))
+        // when: click score three times
+        // then: score is 3
+        val scoreButton = onView(withId(myScoreButton))
 
         for (i in 1..3) {
-            rollButton.perform(click())
-            addButton.perform(click())
+            scoreButton.perform(click())
         }
 
         val textView = onView(withId(myScoreTextField))
-        textView.check(matches(withText("10")))
+        textView.check(matches(withText("3")))
     }
 
     @Test
-    fun clickRollAddSubtractButton3Times() {
+    fun clickScoreAndStealButtons() {
         // given: open app
-        // when: click add, subtract, add
-        // then: score is 8
-        val addButton = onView(withId(myAddButton))
-        val subtractButton = onView(withId(mySubtractButton))
-        val rollButton = onView(withId(myRollButton))
+        // when: click score 3 times and steal 1 time
+        // then: score is 2
+        val scoreButton = onView(withId(myScoreButton))
+        val stealButton = onView(withId(myStealButton))
 
-        rollButton.perform(click())
-        addButton.perform(click())
-        rollButton.perform(click())
-        subtractButton.perform(click())
-        rollButton.perform(click())
-        addButton.perform(click())
+        for (i in 1..3) {
+            scoreButton.perform(click())
+        }
+
+        stealButton.perform(click())
 
         val textView = onView(withId(myScoreTextField))
-        textView.check(matches(withText("8")))
+        textView.check(matches(withText("2")))
     }
 
     @Test
     fun testLowerLimitsOfScore() {
         // given: open app
-        // when: click add, subtract, subtract
+        // when: click score 3 times and steal 5 times
         // then: score is 0
-        val addButton = onView(withId(myAddButton))
-        val subtractButton = onView(withId(mySubtractButton))
-        val rollButton = onView(withId(myRollButton))
+        val scoreButton = onView(withId(myScoreButton))
+        val stealButton = onView(withId(myStealButton))
 
-        rollButton.perform(click())
-        addButton.perform(click())
-        rollButton.perform(click())
-        subtractButton.perform(click())
-        rollButton.perform(click())
-        subtractButton.perform(click())
+        for (i in 1..3) {
+            scoreButton.perform(click())
+        }
+
+        for (i in 1..5) {
+            stealButton.perform(click())
+        }
 
         val textView = onView(withId(myScoreTextField))
         textView.check(matches(withText("0")))
     }
 
     @Test
+    fun testUpperLimitsOfScore() {
+        // given: open app
+        // when: click score 15 times and again 2 more times
+        // then: score is 15
+        val scoreButton = onView(withId(myScoreButton))
+
+        for (i in 1..15) {
+            scoreButton.perform(click())
+        }
+
+        for (i in 1..2) {
+            scoreButton.perform(click())
+        }
+
+        val textView = onView(withId(myScoreTextField))
+        textView.check(matches(withText("15")))
+    }
+
+    @Test
     fun testResetButton() {
         // given: open app
-        // when: click roll/add 3 times and reset 1 time
+        // when: click score 3 times and reset 1 time
         // then: score is 0
-        val addButton = onView(withId(myAddButton))
+        val scoreButton = onView(withId(myScoreButton))
         val resetButton = onView(withId(myResetButton))
-        val rollButton = onView(withId(myRollButton))
 
         for (i in 1..3) {
-            rollButton.perform(click())
-            addButton.perform(click())
+            scoreButton.perform(click())
         }
 
         resetButton.perform(click())
@@ -121,77 +123,50 @@ class MainActivity2Test {
         textView.check(matches(withText("0")))
     }
 
+
     @Test
     fun testScoreOnRotation() {
         // given: open app
-        // when: click roll/add 3 times and rotate device
-        // then: score is 10
-        val addButton = onView(withId(myAddButton))
-        val rollButton = onView(withId(myRollButton))
+        // when: click score 3 times and rotate device
+        // then: score is 3
+        val scoreButton = onView(withId(myScoreButton))
 
         for (i in 1..3) {
-            rollButton.perform(click())
-            addButton.perform(click())
+            scoreButton.perform(click())
         }
 
         val textView = onView(withId(myScoreTextField))
-        textView.check(matches(withText("10")))
+        textView.check(matches(withText("3")))
 
-        mActivityScenarioRule.scenario.onActivity { activity ->
+        activityRule.scenario.onActivity { activity ->
             activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         }
 
-        textView.check(matches(withText("10")))
+        textView.check(matches(withText("3")))
 
     }
 
     @Test
     fun testScoreOnRotationWithClick() {
         // given: open app
-        // when: click roll/add 2 times and rotate device, click roll/add
-        // then: score is 9
-        val addButton = onView(withId(myAddButton))
-        val rollButton = onView(withId(myRollButton))
+        // when: click score 3 times and rotate device, click score 1 time
+        // then: score is 4
+        val scoreButton = onView(withId(myScoreButton))
 
-        for (i in 1..2) {
-            rollButton.perform(click())
-            Thread.sleep(1000)
-            addButton.perform(click())
-            Thread.sleep(1000)
+        for (i in 1..3) {
+            scoreButton.perform(click())
         }
-        Thread.sleep(1000)
+
         val textView = onView(withId(myScoreTextField))
-        textView.check(matches(withText("5")))
-        Thread.sleep(1000)
-        mActivityScenarioRule.scenario.onActivity { activity ->
+
+        activityRule.scenario.onActivity { activity ->
             activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         }
+        Thread.sleep(5000)
+        scoreButton.perform(click())
         Thread.sleep(1000)
-        rollButton.perform(click())
-        Thread.sleep(1000)
-        addButton.perform(click())
-        Thread.sleep(1000)
-        val textView2 = onView(withId(myScoreTextField))
-        textView2.check(matches(withText("9")))
+        textView.check(matches(withText("4")))
 
     }
 
-
-    private fun childAtPosition(
-        parentMatcher: Matcher<View>, position: Int
-    ): Matcher<View> {
-
-        return object : TypeSafeMatcher<View>() {
-            override fun describeTo(description: Description) {
-                description.appendText("Child at position $position in parent ")
-                parentMatcher.describeTo(description)
-            }
-
-            public override fun matchesSafely(view: View): Boolean {
-                val parent = view.parent
-                return parent is ViewGroup && parentMatcher.matches(parent)
-                        && view == parent.getChildAt(position)
-            }
-        }
-    }
 }
